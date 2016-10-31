@@ -17,4 +17,10 @@ module config {
     export class Game {
         public static FPS : number = 60;
     }
+
+    export class PipeSize {
+        public static SMALL : string = "pipe1";
+        public static MEDIUM : string = "pipe2";
+        public static LARGE : string = "pipe3";
+    }
 }

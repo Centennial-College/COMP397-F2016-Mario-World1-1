@@ -10,7 +10,7 @@
 /// <reference path="../objects/enemy.ts" />
 /// <reference path="../objects/gameobject.ts" />
 /// <reference path="../objects/vector2.ts" />
-/// <reference path="../objects/poof.ts" />
+/// <reference path="../objects/pipe.ts" />
 /// <reference path="../scenes/menu.ts" />
 /// <reference path="../scenes/play.ts" /> 
 //# sourceMappingURL=_reference.js.map

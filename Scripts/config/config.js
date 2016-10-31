@@ -28,5 +28,14 @@ var config;
         return Game;
     }());
     config.Game = Game;
+    var PipeSize = (function () {
+        function PipeSize() {
+        }
+        PipeSize.SMALL = "pipe1";
+        PipeSize.MEDIUM = "pipe2";
+        PipeSize.LARGE = "pipe3";
+        return PipeSize;
+    }());
+    config.PipeSize = PipeSize;
 })(config || (config = {}));
 //# sourceMappingURL=config.js.map

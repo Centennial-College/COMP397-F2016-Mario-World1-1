@@ -4,7 +4,10 @@ module scenes {
         private _bg : createjs.Bitmap;
         private _groundPosition : number;
 
-        private _player : objects.GameObject;
+        private _ground : createjs.Bitmap;
+        private _player : objects.Player;
+
+        private _pipes : objects.Pipe[];
 
         private _scrollableObjContainer : createjs.Container;
 
@@ -14,13 +17,27 @@ module scenes {
         }
 
         public start() : void {
-            this._bg = new createjs.Bitmap(assets.getResult("floor"));
+            this._bg = new createjs.Bitmap(assets.getResult("bg"));
+            this._ground = new createjs.Bitmap(assets.getResult("floor"));
             this._scrollableObjContainer = new createjs.Container();
-            this._groundPosition = 538;
-            this._player = new objects.GameObject(atlas, "player");
+            this._player = new objects.Player("player");
+            
+            this._pipes = [];
+            this._pipes.push(new objects.Pipe(config.PipeSize.SMALL, new objects.Vector2(1208, 450)));
+            this._pipes.push(new objects.Pipe(config.PipeSize.MEDIUM, new objects.Vector2(1640, 408)));
+            this._pipes.push(new objects.Pipe(config.PipeSize.LARGE, new objects.Vector2(1984,363)));
+            this._pipes.push(new objects.Pipe(config.PipeSize.LARGE, new objects.Vector2(2458, 363)));
+
+
+            this._ground.y = 538;
 
             this._scrollableObjContainer.addChild(this._bg);
             this._scrollableObjContainer.addChild(this._player);
+            this._scrollableObjContainer.addChild(this._ground);
+            for(let pipe of this._pipes) {
+                this._scrollableObjContainer.addChild(pipe);
+            }
+
             this.addChild(this._scrollableObjContainer);
 
             window.onkeydown = this._onKeyDown;
@@ -33,14 +50,14 @@ module scenes {
 
             this._player.update();
 
-            if(controls.UP) {
-                this._scrollBGForward();
-            }
-            if(controls.DOWN) { 
+            if(controls.LEFT) {
+                this._player.moveLeft();
                 this._scrollBGBackward();
             }
-
-            
+            if(controls.RIGHT) { 
+                this._player.moveRight();
+                this._scrollBGForward();
+            }
         }
 
         private _onKeyDown(event: KeyboardEvent) : void {
@@ -89,12 +106,12 @@ module scenes {
 
         private _scrollBGForward() : void{
             if(this._scrollableObjContainer.regX < 3071 - 815)
-                this._scrollableObjContainer.regX += 10;
+                this._scrollableObjContainer.regX += 1;
         }
 
         private _scrollBGBackward() : void{
             if(this._scrollableObjContainer.regX > 0.0)
-                this._scrollableObjContainer.regX -= 10;
+                this._scrollableObjContainer.regX -= 1;
         }
     }
 }

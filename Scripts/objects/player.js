@@ -3,8 +3,8 @@ var __extends = (this && this.__extends) || function (d, b) {
     function __() { this.constructor = d; }
     d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
 };
-var Objects;
-(function (Objects) {
+var objects;
+(function (objects) {
     var Player = (function (_super) {
         __extends(Player, _super);
         function Player(imgString) {
@@ -13,11 +13,16 @@ var Objects;
         Player.prototype.start = function () {
         };
         Player.prototype.update = function () {
-            this.position.y += 5;
-            this.update();
+            this.y += 9.81;
+        };
+        Player.prototype.moveRight = function () {
+            this.x += 5;
+        };
+        Player.prototype.moveLeft = function () {
+            this.x -= 5;
         };
         return Player;
     }(objects.GameObject));
-    Objects.Player = Player;
-})(Objects || (Objects = {}));
+    objects.Player = Player;
+})(objects || (objects = {}));
 //# sourceMappingURL=player.js.map

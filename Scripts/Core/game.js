@@ -9,8 +9,9 @@ var currentScene;
 var scene;
 // Preload Assets required
 var assetData = [
-    { id: "floor", src: "../../Assets/images/allScene.png" },
-    { id: "player", src: "../../Assets/images/player.png" }
+    { id: "bg", src: "../../Assets/images/allScene.png" },
+    { id: "floor", src: "../../Assets/images/floor.png" },
+    { id: "atlas", src: "../../Assets/images/Test.png" }
 ];
 function preload() {
     // Create a queue for assets being loaded
@@ -29,12 +30,32 @@ function init() {
     createjs.Ticker.on("tick", this.gameLoop, this);
     var atlasData = {
         "images": [
-            assets.getResult("player")
+            /*
+            assets.getResult("player"),
+            assets.getResult("block"),
+            assets.getResult("pipe1.png"),
+            assets.getResult("pipe2.png"),
+            assets.getResult("pipe3.png"),
+            assets.getResult("qBlock")
+            */
+            assets.getResult("atlas")
         ],
         "frames": [
-            [0, 0, 43, 86, 0, 0, 0]
+            [40, 0, 43, 86, 0, 0, 0],
+            [83, 0, 45, 45, 0, 0, 0],
+            [0, 216, 87, 87, 0, 0, 0],
+            [0, 86, 87, 130, 0, 0, 0],
+            [0, 303, 93, 175, 0, 0, 0],
+            [0, 0, 40, 45, 0, 0, 0]
         ],
-        "animations": {},
+        "animations": {
+            "player": { "frames": [0] },
+            "block": { "frames": [1] },
+            "pipe1": { "frames": [2] },
+            "pipe2": { "frames": [3] },
+            "pipe3": { "frames": [4] },
+            "qBlock": { "frames": [5] }
+        },
     };
     atlas = new createjs.SpriteSheet(atlasData);
     scene = config.Scene.GAME;

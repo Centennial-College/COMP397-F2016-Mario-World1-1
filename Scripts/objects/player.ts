@@ -1,4 +1,4 @@
-module Objects {
+module objects {
     export class Player extends objects.GameObject {
         constructor(imgString : string) {
             super(atlas, imgString);
@@ -9,9 +9,15 @@ module Objects {
         }
 
         public update() : void {
-            this.position.y += 5;
+            this.y += 9.81;
+        }
 
-            this.update();
+        public moveRight() : void {
+            this.x += 5;
+        }
+
+        public moveLeft() : void {
+            this.x -= 5;
         }
     }
 }

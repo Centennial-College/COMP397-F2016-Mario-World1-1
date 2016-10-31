@@ -12,12 +12,23 @@ var scenes;
             this.start();
         }
         Play.prototype.start = function () {
-            this._bg = new createjs.Bitmap(assets.getResult("floor"));
+            this._bg = new createjs.Bitmap(assets.getResult("bg"));
+            this._ground = new createjs.Bitmap(assets.getResult("floor"));
             this._scrollableObjContainer = new createjs.Container();
-            this._groundPosition = 538;
-            this._player = new objects.GameObject(atlas, "player");
+            this._player = new objects.Player("player");
+            this._pipes = [];
+            this._pipes.push(new objects.Pipe(config.PipeSize.SMALL, new objects.Vector2(1208, 450)));
+            this._pipes.push(new objects.Pipe(config.PipeSize.MEDIUM, new objects.Vector2(1640, 408)));
+            this._pipes.push(new objects.Pipe(config.PipeSize.LARGE, new objects.Vector2(1984, 363)));
+            this._pipes.push(new objects.Pipe(config.PipeSize.LARGE, new objects.Vector2(2458, 363)));
+            this._ground.y = 538;
             this._scrollableObjContainer.addChild(this._bg);
             this._scrollableObjContainer.addChild(this._player);
+            this._scrollableObjContainer.addChild(this._ground);
+            for (var _i = 0, _a = this._pipes; _i < _a.length; _i++) {
+                var pipe = _a[_i];
+                this._scrollableObjContainer.addChild(pipe);
+            }
             this.addChild(this._scrollableObjContainer);
             window.onkeydown = this._onKeyDown;
             window.onkeyup = this._onKeyUp;
@@ -25,11 +36,13 @@ var scenes;
         };
         Play.prototype.update = function () {
             this._player.update();
-            if (controls.UP) {
-                this._scrollBGForward();
-            }
-            if (controls.DOWN) {
+            if (controls.LEFT) {
+                this._player.moveLeft();
                 this._scrollBGBackward();
+            }
+            if (controls.RIGHT) {
+                this._player.moveRight();
+                this._scrollBGForward();
             }
         };
         Play.prototype._onKeyDown = function (event) {
@@ -76,11 +89,11 @@ var scenes;
         };
         Play.prototype._scrollBGForward = function () {
             if (this._scrollableObjContainer.regX < 3071 - 815)
-                this._scrollableObjContainer.regX += 10;
+                this._scrollableObjContainer.regX += 1;
         };
         Play.prototype._scrollBGBackward = function () {
             if (this._scrollableObjContainer.regX > 0.0)
-                this._scrollableObjContainer.regX -= 10;
+                this._scrollableObjContainer.regX -= 1;
         };
         return Play;
     }(objects.Scene));
