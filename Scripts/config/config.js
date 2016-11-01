@@ -37,5 +37,14 @@ var config;
         return PipeSize;
     }());
     config.PipeSize = PipeSize;
+    var MarioState = (function () {
+        function MarioState() {
+        }
+        MarioState.SMALL = 0;
+        MarioState.BIG = 1;
+        MarioState.FLOWER = 2;
+        return MarioState;
+    }());
+    config.MarioState = MarioState;
 })(config || (config = {}));
 //# sourceMappingURL=config.js.map

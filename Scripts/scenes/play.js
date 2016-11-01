@@ -25,24 +25,52 @@ var scenes;
             this._scrollableObjContainer.addChild(this._bg);
             this._scrollableObjContainer.addChild(this._player);
             this._scrollableObjContainer.addChild(this._ground);
-            for (var _i = 0, _a = this._pipes; _i < _a.length; _i++) {
-                var pipe = _a[_i];
-                this._scrollableObjContainer.addChild(pipe);
-            }
+            // for(let pipe of this._pipes) {
+            //     this._scrollableObjContainer.addChild(pipe);
+            // }
             this.addChild(this._scrollableObjContainer);
             window.onkeydown = this._onKeyDown;
             window.onkeyup = this._onKeyUp;
             stage.addChild(this);
         };
         Play.prototype.update = function () {
+            // if (!this._player.getIsGrounded) {
+            this._checkIfPlayerGrounded();
+            this._checkPlayerLeftBounds();
+            // }
             this._player.update();
-            if (controls.LEFT) {
-                this._player.moveLeft();
-                this._scrollBGBackward();
+            //bg scrolls as mario moves right from the middle of the screen onwards
+            this._scrollBGForward();
+            // if (createjs.Ticker.getTicks() % 20 == 0) {
+            console.log('player.position: ' + this._player.position.x);
+            console.log('player velocity: ' + this._player.getVelocity().x);
+            // }
+            // if (controls.LEFT) {
+            //     // this._player.move(false)
+            //     // this._player.moveLeft();
+            //     // this._scrollBGBackward();
+            // }
+            // if (controls.RIGHT) {
+            //     // this._player.move(true)
+            //     // this._player.moveRight();
+            //     this._scrollBGForward();
+            // }
+        };
+        Play.prototype._checkPlayerLeftBounds = function () {
+            if (!this._player.getTouchingLeftWall() &&
+                this._player.position.x < this._scrollableObjContainer.regX + this._player.width / 2) {
+                this._player.position.x = this._scrollableObjContainer.regX + this._player.width / 2;
+                this._player.setVelocity(new objects.Vector2(0, 0));
+                this._player.setTouchingLeftWall(true);
             }
-            if (controls.RIGHT) {
-                this._player.moveRight();
-                this._scrollBGForward();
+            else {
+                this._player.setTouchingLeftWall(false);
+            }
+        };
+        Play.prototype._checkIfPlayerGrounded = function () {
+            if (this._player.position.y >= this._ground.y) {
+                this._player.position.y = this._ground.y;
+                this._player.setIsGrounded(true);
             }
         };
         Play.prototype._onKeyDown = function (event) {
@@ -88,12 +116,14 @@ var scenes;
             }
         };
         Play.prototype._scrollBGForward = function () {
-            if (this._scrollableObjContainer.regX < 3071 - 815)
-                this._scrollableObjContainer.regX += 1;
+            if (this._scrollableObjContainer.regX < 3071 - 815) {
+                if (this._player.position.x >= this._scrollableObjContainer.regX + config.Screen.CENTER_X)
+                    this._scrollableObjContainer.regX += this._player.getVelocity().x;
+            }
         };
         Play.prototype._scrollBGBackward = function () {
             if (this._scrollableObjContainer.regX > 0.0)
-                this._scrollableObjContainer.regX -= 1;
+                this._scrollableObjContainer.regX -= 5;
         };
         return Play;
     }(objects.Scene));

@@ -5,5 +5,6 @@ var keys;
     keys.S = 83;
     keys.D = 68;
     keys.SPACE = 32;
+    keys.SHIFT = 16;
 })(keys || (keys = {}));
 //# sourceMappingURL=keys.js.map
