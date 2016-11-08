@@ -5,18 +5,14 @@ var __extends = (this && this.__extends) || function (d, b) {
 };
 var objects;
 (function (objects) {
-    var PipeSize;
-    (function (PipeSize) {
-        PipeSize[PipeSize["SMALL"] = 0] = "SMALL";
-        PipeSize[PipeSize["MEDIUM"] = 1] = "MEDIUM";
-        PipeSize[PipeSize["LARGE"] = 2] = "LARGE";
-    })(PipeSize || (PipeSize = {}));
+    // enum PipeSize {SMALL, MEDIUM, LARGE}
     var Pipe = (function (_super) {
         __extends(Pipe, _super);
         function Pipe(pipeSize, defaultPosition) {
             _super.call(this, atlas, pipeSize);
             this.position.x = defaultPosition.x;
             this.position.y = defaultPosition.y;
+            this.update();
         }
         return Pipe;
     }(objects.GameObject));

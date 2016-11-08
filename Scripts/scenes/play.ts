@@ -25,7 +25,7 @@ module scenes {
             this._pipes.push(new objects.Pipe(config.PipeSize.SMALL, new objects.Vector2(1208, 450)));
             this._pipes.push(new objects.Pipe(config.PipeSize.MEDIUM, new objects.Vector2(1640, 408)));
             this._pipes.push(new objects.Pipe(config.PipeSize.LARGE, new objects.Vector2(1984, 363)));
-            this._pipes.push(new objects.Pipe(config.PipeSize.LARGE, new objects.Vector2(2458, 363)));
+            this._pipes.push(new objects.Pipe(config.PipeSize.LARGE, new objects.Vector2(2460, 363)));
 
 
             this._ground.y = 538;
@@ -42,12 +42,22 @@ module scenes {
             window.onkeydown = this._onKeyDown;
             window.onkeyup = this._onKeyUp;
 
-            createjs.Sound.play("theme")
+            // createjs.Sound.play("theme")
 
             stage.addChild(this);
         }
 
         public update(): void {
+
+            this._pipes.forEach(pipe => {
+                if (this._checkCollision(this._player, pipe)) {
+                    console.log(("Hit " + pipe.name));
+                }
+            });
+
+            // if (this._checkCollision(this._player, this._pipes[0])) {
+            // console.log(("Hit"));
+            // }
 
             // if (!this._player.getIsGrounded) {
             this._checkIfPlayerGrounded();
@@ -58,23 +68,6 @@ module scenes {
 
             //bg scrolls as mario moves right from the middle of the screen onwards
             this._scrollBGForward()
-
-            // if (createjs.Ticker.getTicks() % 20 == 0) {
-            console.log('player.position: ' + this._player.position.x);
-            console.log('player velocity: ' + this._player.getVelocity().x);
-            // }
-
-
-            // if (controls.LEFT) {
-            //     // this._player.move(false)
-            //     // this._player.moveLeft();
-            //     // this._scrollBGBackward();
-            // }
-            // if (controls.RIGHT) {
-            //     // this._player.move(true)
-            //     // this._player.moveRight();
-            //     this._scrollBGForward();
-            // }
         }
 
         private _checkPlayerLeftBounds(): void {
@@ -90,8 +83,8 @@ module scenes {
         }
 
         private _checkIfPlayerGrounded(): void {
-            if (this._player.position.y >= this._ground.y) {
-                this._player.position.y = this._ground.y
+            if (this._player.position.y + this._player.height / 2 >= this._ground.y) {
+                this._player.position.y = this._ground.y - this._player.height / 2
                 this._player.setIsGrounded(true)
             }
         }
@@ -151,6 +144,17 @@ module scenes {
         private _scrollBGBackward(): void {
             if (this._scrollableObjContainer.regX > 0.0)
                 this._scrollableObjContainer.regX -= 5;
+        }
+
+        private _checkCollision(obj1: objects.GameObject, obj2: objects.GameObject): boolean {
+            //player is obj1; pipe is obj2
+            if (obj2.x < obj1.x + obj1.width / 2 &&
+                obj2.x + obj2.width > obj1.x - obj1.width / 2 &&
+                obj2.y < obj1.y + obj1.height / 2 &&
+                obj2.y + obj2.height > obj1.y - obj1.height / 2) {
+                return true;
+            }
+            return false;
         }
     }
 }

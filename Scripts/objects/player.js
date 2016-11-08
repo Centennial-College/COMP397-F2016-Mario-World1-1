@@ -42,7 +42,7 @@ var objects;
         Player.prototype.start = function () {
             this._velocity = new objects.Vector2(0, 0);
             this.regX = this.width / 2;
-            this.regY = this.height;
+            this.regY = this.height / 2;
             this.position.x = this.regX;
         };
         Player.prototype.update = function () {
