@@ -25,12 +25,14 @@ var scenes;
             this._scrollableObjContainer.addChild(this._bg);
             this._scrollableObjContainer.addChild(this._player);
             this._scrollableObjContainer.addChild(this._ground);
-            // for(let pipe of this._pipes) {
-            //     this._scrollableObjContainer.addChild(pipe);
-            // }
+            for (var _i = 0, _a = this._pipes; _i < _a.length; _i++) {
+                var pipe = _a[_i];
+                this._scrollableObjContainer.addChild(pipe);
+            }
             this.addChild(this._scrollableObjContainer);
             window.onkeydown = this._onKeyDown;
             window.onkeyup = this._onKeyUp;
+            createjs.Sound.play("theme");
             stage.addChild(this);
         };
         Play.prototype.update = function () {
